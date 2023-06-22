@@ -37,11 +37,18 @@ const Users = db.define('users', {
   },
   role: {
     type: DataTypes.STRING,
-    // allowNull: false,
     allowNull: true,
     validate: {
       notEmpty: true,
     }
+  },
+  tanggalBayar: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  tagihan: {
+    type: DataTypes.STRING,
+    allowNull: true,
   }
 }, {
   freezeTableName: true

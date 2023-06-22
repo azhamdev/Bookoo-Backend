@@ -3,11 +3,13 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-  "name":"user",
-  "email":"user@gmail.com",
+  "name":"baru dengan tanggal",
+  "email":"baru2@gmail.com",
   "password":"1234",
   "confPassword":"1234",
-  "role":"user"
+  "role":"user",
+  "tanggalBayar":"2023-06-22",
+  "tagihan":"12-12-12"
 }
 
 ###
