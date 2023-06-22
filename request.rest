@@ -1,0 +1,106 @@
+// Create User
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+  "name":"user",
+  "email":"user@gmail.com",
+  "password":"1234",
+  "confPassword":"1234",
+  "role":"user"
+}
+
+###
+
+// Get All Users 
+
+GET http://localhost:5000/users
+
+###
+// Get Single User 
+GET http://localhost:5000/users/1844ac28-aa8a-489b-8a80-d1b771062a78
+
+
+###
+// Update User
+PATCH http://localhost:5000/users/1844ac28-aa8a-489b-8a80-d1b771062a78
+Content-Type: application/json
+
+{
+  "name":"Rasyid Albar 123",
+  "email":"rasyidAlbar123@gmail.com",
+  "password":"",
+  "confPassword":"",
+  "role":"user"
+}
+
+
+###
+// Delete User
+DELETE http://localhost:5000/users/ee41c9ad-d634-4381-804d-2f4a1f24a973
+
+
+###
+// Login Admin
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password":"admin123"
+}
+
+###
+// Login User
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email":"user@gmail.com",
+  "password":"1234"
+}
+
+
+
+###
+// Me
+GET http://localhost:5000/me
+
+
+###
+// Logout
+DELETE  http://localhost:5000/logout
+
+###
+// Get All Products 
+GET http://localhost:5000/products
+
+###
+// Get Product by Id
+GET http://localhost:5000/products/d082e6ee-3ab8-4278-9a8d-cd4e97b8da9d
+
+
+###
+// Create Product
+POST http://localhost:5000/products/
+Content-Type: application/json
+
+{
+  "name":"Product 3",
+  "price":1239123
+}
+
+
+###
+// update Product
+PATCH  http://localhost:5000/products/d082e6ee-3ab8-4278-9a8d-cd4e97b8da9d
+Content-Type: application/json
+
+{
+  "name":"Product 1 updated  lagi",
+  "price": 1239494949
+}
+
+###
+// delete Product
+DELETE http://localhost:5000/products/1da485af-5092-485d-811f-72a4f8ecc3b9
