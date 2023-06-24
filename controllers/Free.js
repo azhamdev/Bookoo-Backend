@@ -1,14 +1,14 @@
-import Product from "../models/ProductModel.js";
+import Free from "../models/FreeModel.js";
 import User from "../models/UserModel.js";
 import { Op } from "sequelize";
 import path from 'path';
 import fs from "fs"
 
-export const getProducts = async (req, res) => {
+export const getFree = async (req, res) => {
   try {
     let response;
     if (req.role === "admin") {
-      response = await Product.findAll({
+      response = await Free.findAll({
         attributes: ['uuid', 'name', 'videoUrl', 'audioUrl', 'author', 'description', 'transkrip', 'image', 'url'],
         include: [{
           model: User,
@@ -16,8 +16,14 @@ export const getProducts = async (req, res) => {
         }]
       })
     } else {
-      response = await Product.findAll();
-      // response = await Product.findAll({
+      response = await Free.findAll(
+        {
+          attributes: ['uuid', 'name', 'videoUrl', 'audioUrl', 'author', 'description', 'transkrip', 'image', 'url']
+        }
+      );
+
+
+      // response = await Free.findAll({
       //   attributes: ['uuid', 'name', 'videoUrl', 'audioUrl', 'author', 'description', 'transkrip', 'image', 'url'],
       //   where: {
       //     userId: req.userId
@@ -27,6 +33,8 @@ export const getProducts = async (req, res) => {
       //     attributes: ['name', 'email']
       //   }]
       // })
+
+
     }
     res.status(200).json(response)
   } catch (error) {
@@ -34,22 +42,22 @@ export const getProducts = async (req, res) => {
   }
 }
 
-export const getProductById = async (req, res) => {
+export const getFreeById = async (req, res) => {
   try {
-    const product = await Product.findOne({
+    const free = await Free.findOne({
       where: {
         uuid: req.params.id
       }
     });
 
-    if (!product) return res.status(404).json({ msg: "Data tidak ditemukan" })
+    if (!free) return res.status(404).json({ msg: "Data tidak ditemukan" })
 
     let response;
     if (req.role === "admin") {
-      response = await Product.findOne({
+      response = await Free.findOne({
         attributes: ['uuid', 'name', 'videoUrl', 'audioUrl', 'author', 'description', 'transkrip', 'image', 'url'],
         where: {
-          id: product.id
+          id: free.id
         },
         include: [{
           model: User,
@@ -57,18 +65,11 @@ export const getProductById = async (req, res) => {
         }]
       })
     } else {
-      response = await Product.findOne({
+      response = await Free.findOne({
         attributes: ['uuid', 'name', 'videoUrl', 'audioUrl', 'author', 'description', 'transkrip', 'image', 'url'],
-        // where: {
-        //   [Op.and]: [{ id: product.id }, { userId: req.userId }]
-        // },
         where: {
-          id: product.id
+          id: free.id
         },
-        // include: [{
-        //   model: User,
-        //   attributes: ['name', 'email']
-        // }]
       })
     }
     res.status(200).json(response)
@@ -78,7 +79,7 @@ export const getProductById = async (req, res) => {
 }
 
 
-export const createProduct = (req, res) => {
+export const createFree = (req, res) => {
   if (req.files === null) return res.status(400).json({ msg: "No File Uploaded" });
   const name = req.body.title;
   const videoUrl = req.body.videoUrl;
@@ -99,7 +100,7 @@ export const createProduct = (req, res) => {
   file.mv(`./public/images/${fileName}`, async (err) => {
     if (err) return res.status(500).json({ msg: err.message });
     try {
-      await Product.create({
+      await Free.create({
         name: name,
         videoUrl: videoUrl,
         audioUrl: audioUrl,
@@ -118,17 +119,17 @@ export const createProduct = (req, res) => {
 }
 
 
-export const updateProduct = async (req, res) => {
-  const product = await Product.findOne({
+export const updateFree = async (req, res) => {
+  const free = await Free.findOne({
     where: {
       uuid: req.params.id
     }
   });
-  if (!product) return res.status(404).json({ msg: "Data not Found" })
+  if (!free) return res.status(404).json({ msg: "Data not Found" })
 
   let fileName = "";
   if (req.files === null) {
-    fileName = Product.image;
+    fileName = Free.image;
   } else {
     const file = req.files.file;
     const fileSize = file.data.length;
@@ -139,7 +140,7 @@ export const updateProduct = async (req, res) => {
     if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "invalid images type" });
     if (fileSize > 5000000) return res.status(422).json({ msg: "Image must under 5mb" });
 
-    const filepath = `./public/images/${product.image}`;
+    const filepath = `./public/images/${free.image}`;
     fs.unlinkSync(filepath);
 
     file.mv(`./public/images/${fileName}`, (err) => {
@@ -155,7 +156,7 @@ export const updateProduct = async (req, res) => {
   const transkrip = req.body.transkrip;
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`
   try {
-    await Product.update(
+    await Free.update(
       {
         name: name,
         videoUrl: videoUrl,
@@ -167,7 +168,7 @@ export const updateProduct = async (req, res) => {
         url: url,
       }, {
       where: {
-        id: product.id
+        id: free.id
       }
     });
     res.status(200).json({ msg: "Content Updated Successfuly" })
@@ -177,27 +178,27 @@ export const updateProduct = async (req, res) => {
 }
 
 
-export const deleteProduct = async (req, res) => {
+export const deleteFree = async (req, res) => {
   try {
-    const product = await Product.findOne({
+    const free = await Free.findOne({
       where: {
         uuid: req.params.id
       }
     });
 
-    if (!product) return res.status(404).json({ msg: "Data tidak ditemukan" })
+    if (!free) return res.status(404).json({ msg: "Data tidak ditemukan" })
     const { name, videoUrl, audioUrl, author, description, transkrip, image, url } = req.body
     if (req.role === "admin") {
-      await Product.destroy({
+      await Free.destroy({
         where: {
-          id: product.id
+          id: free.id
         },
       })
     } else {
-      if (req.userId !== product.userId) return res.status(403).json({ msg: "Akses terlarang" })
-      await Product.destroy({
+      if (req.userId !== free.userId) return res.status(403).json({ msg: "Akses terlarang" })
+      await Free.destroy({
         where: {
-          [Op.and]: [{ id: product.id }, { userId: req.userId }]
+          [Op.and]: [{ id: free.id }, { userId: req.userId }]
         },
       })
     }

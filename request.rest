@@ -4,10 +4,10 @@ Content-Type: application/json
 
 {
   "name":"baru dengan tanggal",
-  "email":"baru2@gmail.com",
-  "password":"1234",
-  "confPassword":"1234",
-  "role":"user",
+  "email":"admin@gmail.com",
+  "password":"admin123",
+  "confPassword":"admin123",
+  "role":"admin",
   "tanggalBayar":"2023-06-22",
   "tagihan":"12-12-12"
 }

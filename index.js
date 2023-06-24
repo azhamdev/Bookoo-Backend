@@ -1,14 +1,21 @@
-import express from "express";
-import cors from "cors";
-import session from "express-session";
-import dotenv from "dotenv"
-import db from './config/Database.js'
 import SequelizeSession from 'connect-session-sequelize';
-import UserRoute from './routes/UserRoute.js';
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import fileUpload from "express-fileupload";
+import session from "express-session";
+import db from './config/Database.js';
+import AuthRoute from './routes/AuthRoute.js';
 import ProductRoute from './routes/ProductRoute.js';
-import AuthRoute from './routes/AuthRoute.js'
+import UserRoute from './routes/UserRoute.js';
+import FreeRoute from './routes/FreeRoute.js'
 
 dotenv.config();
+// (async () => {
+//   await db.sync(
+//     { force: true }
+//   )
+// })()
 
 const app = express();
 
@@ -19,9 +26,6 @@ const store = new sessionStore({
   db: db
 })
 
-// (async () => {
-//   await db.sync()
-// })()
 
 app.use(session({
   secret: process.env.SESS_SECRET,
@@ -39,9 +43,13 @@ app.use(cors({
 }))
 
 app.use(express.json());
+app.use(fileUpload())
+app.use(express.static("public"));
 app.use(UserRoute);
 app.use(ProductRoute);
+app.use(FreeRoute);
 app.use(AuthRoute);
+
 
 store.sync();
 
