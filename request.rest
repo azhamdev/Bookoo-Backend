@@ -8,8 +8,20 @@ Content-Type: application/json
   "password":"admin123",
   "confPassword":"admin123",
   "role":"admin",
-  "tanggalBayar":"2023-06-22",
-  "tagihan":"12-12-12"
+  "tanggalBayar":"tidak ada",
+  "tagihan":"tidak ada"
+}
+
+###
+
+POST http://localhost:5000/articles
+Content-Type: application/json
+
+{
+  "name":"ini article",
+  "author":"samsul",
+  "description":"hihi",
+  "image":"samsul.jpg"
 }
 
 ###

@@ -9,6 +9,7 @@ import AuthRoute from './routes/AuthRoute.js';
 import ProductRoute from './routes/ProductRoute.js';
 import UserRoute from './routes/UserRoute.js';
 import FreeRoute from './routes/FreeRoute.js'
+import ArticleRoute from './routes/ArticleRoute.js'
 
 dotenv.config();
 // (async () => {
@@ -48,6 +49,7 @@ app.use(express.static("public"));
 app.use(UserRoute);
 app.use(ProductRoute);
 app.use(FreeRoute);
+app.use(ArticleRoute);
 app.use(AuthRoute);
 
 
